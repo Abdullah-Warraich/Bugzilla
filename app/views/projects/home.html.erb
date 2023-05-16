@@ -1,0 +1,10 @@
+<h3>Home</h3>
+<h4> Welcome <%= current_user.email %> | Status: <%=current_user.usertype %></h4> 
+
+<ul>
+  <li><%= link_to "Projects", projects_path %> </li>
+    <% if can? :manage, Bug %> 
+  <li><%= link_to "Bugs", bugs_path %> </li>
+  <%end%>
+  <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
+</ul>

@@ -1,0 +1,12 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @bug %>
+<div>
+  <% if can? :manage, @bug %> 
+  <%= link_to "Edit this Bug", edit_bug_path(@bug)%> | <%end%>
+    <% if current_user.usertype != "developer" %>
+  <%= link_to "Back to Bugs", bugs_path %>
+  <%end%>
+    <% if can? :manage, @bug %> 
+  <%= button_to "Destroy this Bug", @bug, method: :delete %> <%end%>
+</div>

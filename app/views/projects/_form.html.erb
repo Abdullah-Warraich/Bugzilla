@@ -1,0 +1,46 @@
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+</head>
+<%= form_with(model: project) do |f| %>
+  <% if project.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h2>
+
+      <ul>
+        <% project.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.number_field :user_id,:readonly => true%>
+  </div>
+
+  <div>
+    <%= f.label :name, style: "display: block" %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :description, style: "display: block" %>
+    <%= f.text_field :description %>
+  </div>
+       <div id='user_projects'>
+     <%= f.fields_for :user_projects do |user_project| %>
+       <%= render 'user_project_fields', :f => user_project %>
+     <% end %>
+     <div class='links'>
+       <%= link_to_add_association 'add user', f, :user_projects %>
+     </div>
+   </div>
+
+
+
+
+  <div class="form-actions">
+
+    <%= f.submit %>
+  </div>
+<% end %>

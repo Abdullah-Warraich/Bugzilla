@@ -1,0 +1,66 @@
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.0/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+</head>
+<body>
+<%= form_with(model: bug) do |form| %>
+  <% if bug.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(bug.errors.count, "error") %> prohibited this bug from being saved:</h2>
+
+      <ul>
+        <% bug.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<% if can? :edit, Bug %> 
+<h2>Report new bug/feature:</h2>
+<%= form_with model: @bug do |form| %>
+<% if can? :manage, Bug %>
+
+<div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :deadline, style: "display: block" %>
+    <%= form.date_field :deadline %>
+  </div>
+
+    <%= form.label :type, style: "display: block" %>
+<select name="bug[type1]" id="bug_type1">
+  <option value="feature">feature</option>
+  <option value="bug">bug</option>
+</select>
+<%end%>
+<%= form.label :status, style: "display: block" %>
+<select name="bug[status]" id="bug_status">
+  <option value="new">new</option>
+  <option value="started">started</option>
+  <option value="completed">completed</option>
+  <option value="resolved" hidden>resolved</option>
+</select>
+<% if can? :manage, Bug %>
+
+  <div><br>
+
+<select name="bug[project_id]" id="bug_project_id" style="width:200px">
+</select>
+  </div>
+<% end %>
+
+  <p>
+    <%= form.submit %>
+  </p>
+  <% end %>
+<% end %>
+<% end %> 
+
+
+
+</body>

@@ -1,0 +1,37 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Projects</h1>
+<!-- <%= link_to "Logout", destroy_user_session_path, method: :delete %> -->
+<%= link_to "Home", root_path %>
+
+
+<div id="projects">
+    <% @projects.each do |project| %>
+  <% if current_user.usertype == "manager" %>
+    <% if can? :update, project %> 
+       <%= render project %>
+      <p>
+        <%= link_to "Show this project", project %>
+      </p>
+    <% end %>
+  <% elsif current_user.usertype == "developer" %>
+    <% if can? :read, project %> 
+
+          <%= render project %>
+      <p>
+        <%= link_to "Show this project", project %>
+      </p>
+    <% end %>
+  <% else %>
+          <%= render project %>
+      <p>
+        <%= link_to "Show this project", project %>
+      </p>
+  <% end %>
+  <% end %>
+</div>
+
+<% if can? :create, Project %> 
+<p><%= link_to "New project", new_project_path %></p>
+<% end %>
+

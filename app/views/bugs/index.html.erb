@@ -1,0 +1,19 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Bugs</h1>
+<%= link_to "Home", root_path %>
+
+<% if current_user.usertype != "manager"%>
+<div id="bugs">
+  <% @bugs.each do |bug| %>
+    <%= render bug %>
+    <p>
+      <%= link_to "Show this bug", bug %>
+    </p>
+  <% end %>
+</div>
+
+<% if can? :create, Bug %> 
+<%= link_to "New bug", new_bug_path %>
+<%end%>
+<% end%>

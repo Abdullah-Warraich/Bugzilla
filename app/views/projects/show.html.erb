@@ -1,0 +1,81 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.0/jquery.min.js"></script>
+<p style="color: green"><%= notice %></p>
+
+<%= render @project %>
+
+<div>
+  <% if can? :manage, @project %> 
+  <%= link_to "Edit this project", edit_project_path(@project) %> | <% end %>
+  <%= link_to "Back to projects", projects_path %>
+  <% if can? :manage, @project %> 
+  <%= button_to "Destroy this project", @project, method: :delete %> <% end %>
+</div>
+
+  <% if can? :manage, @project %> 
+
+
+<h3>Developers/QA whom this project assigned</h3>
+<table>
+  <tr>
+    <th>Name of the user</th>
+    <th>Email</th>
+    <th>Type</th>
+    <th>Remove from project</th>
+  </tr>
+  <% @project.users.each do |user| %>
+  <% if user.usertype != "manager" %> 
+    <tr>
+      <td><%= user.name %></td>
+      <td><%= user.email %></td>
+      <td><%= user.usertype %></td>
+<td><%= link_to "Remove",action: "remove", user_id: user.id %></td>
+    </tr>
+  <% end %>
+  <% end %>
+</table>
+
+
+
+<% end %>
+
+<% if can? :read, Bug %>
+  <h3>Bugs of this project</h3>
+  <table>
+  <tr>
+    <th>Title of bug</th>
+    <% if current_user.usertype == "QA" %>
+    <th>Delete</th>
+      <% end %>
+      <% if current_user.usertype == "developer" %>
+    <th>Update Bug</th>
+    <th>Assigned or not</th>
+    <%end%>
+    <th>Status</th>
+  </tr>
+  <% @project.bugs.each do |bug| %>
+  <% if bug.user_id == current_user.id or bug.user_id.nil? or current_user.usertype == "QA" %>
+    <tr>
+      <td><a href="<%= bug_path(bug) %>"><%= bug.title %></td>
+      <% if current_user.usertype == "QA" %>
+        <td><%= button_to "Destroy this Bug", bug, method: :delete %> </td>
+      <% end %>
+      <% if current_user.usertype == "developer" %>
+      <% if bug.user_id == current_user.id %>
+      <td><%= link_to "Change status", edit_bug_path(bug), class: "button" %></td>
+      <%else%>
+        <td>You cannot change status</td>
+      <%end%>
+      <% if bug.user_id.nil? %>
+      <td><%= link_to "Assign", :controller => "bugs", :id => bug.id, action: "assign", pid: @project.id %></td>
+      <% else %>
+      <td>Assigned to you</td>
+      <%end%>
+      <%end%>
+      <td><%= bug.status %></td>
+    </tr>
+  <%end%>
+  <% end %>
+</table>
+<% end %>
+
+

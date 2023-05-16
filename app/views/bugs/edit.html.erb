@@ -1,0 +1,12 @@
+<h1>Editing bug</h1>
+
+<%= render "form", bug: @bug,project: @project %>
+
+
+<br>
+
+<div>
+  <%= link_to "Show this bug", bug_path %> |
+  <%= link_to "Back to project", "/projects/#{@bug.project_id}"%> |
+
+</div>

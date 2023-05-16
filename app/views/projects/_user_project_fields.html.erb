@@ -1,0 +1,7 @@
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+</head>
+<div class="nested-fields">
+<%= f.collection_select :user_id, User.where(usertype: "developer").or(User.where(usertype: "QA")), :id, :name%>
+     <%= link_to_remove_association "remove user", f %>
+</div>

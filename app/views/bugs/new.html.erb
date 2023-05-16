@@ -1,0 +1,11 @@
+<h1>New bug</h1>
+
+<%= render "form", bug: @bug %>
+
+<br>
+
+<div>
+  <% if current_user.usertype != "developer" %>
+  <%= link_to "Back to bugs", bugs_path %>
+  <%end%>
+</div>
